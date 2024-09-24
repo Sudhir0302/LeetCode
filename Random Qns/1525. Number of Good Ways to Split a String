@@ -1,0 +1,63 @@
+You are given a string s.
+
+A split is called good if you can split s into two non-empty strings sleft and sright where their concatenation is equal to s (i.e., sleft + sright = s) and the number of distinct letters in sleft and sright is the same.
+
+Return the number of good splits you can make in s.
+
+solution:
+
+    class Solution 
+    {
+        public int numSplits(String s) 
+        {
+            int count=0;
+            HashMap<Character,Integer>map1=new HashMap<>();
+            HashMap<Character,Integer>map2=new HashMap<>();
+            for(int i=0;i<s.length();i++)
+            {
+                map1.put(s.charAt(i),map1.getOrDefault(s.charAt(i),0)+1);
+            }
+            System.out.print(map1);
+            for(int i=0;i<s.length();i++)
+            {
+                map2.put(s.charAt(i),map2.getOrDefault(s.charAt(i),0)+1);
+                int v=map1.get(s.charAt(i));
+                v--;
+                if(v!=0){
+                    map1.put(s.charAt(i),v);
+                }else{
+                    map1.remove(s.charAt(i));
+                }
+                if(map1.size()==map2.size()){
+                    count++;
+                }
+            }
+            return count;
+        }
+    }
+
+TLE: 
+    class Solution 
+    {
+        public int numSplits(String s) 
+        {
+            int count=0;
+            HashSet<Character>set1=new HashSet<>();
+            HashSet<Character>set2=new HashSet<>();
+            for(int i=0;i<s.length();i++)
+            {
+                int j=i+1;
+                set1.add(s.charAt(i));
+                while(j<s.length())
+                {
+                    set2.add(s.charAt(j));
+                    j++;
+                }
+                if(set1.size()==set2.size()){
+                    count++;
+                }
+                set2.clear();
+            }
+            return count;
+        }
+    }
