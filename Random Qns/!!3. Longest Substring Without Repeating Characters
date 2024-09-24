@@ -1,0 +1,65 @@
+Given a string s, find the length of the longest substring
+ without repeating characters.
+
+ solution:
+
+        class Solution 
+        {
+        public int lengthOfLongestSubstring(String s) 
+        {
+            HashSet<Character>set=new HashSet<>();
+            if(s.length()==1){
+                return 1;
+            }
+            int max=0,j=0;
+            for(int i=0;i<s.length();i++)
+            {
+                while(set.contains(s.charAt(i))) ///if a character contains remove the whole substring from the set until the current character(i)
+                {
+                    set.remove(s.charAt(j));
+                    j++;
+                }
+                set.add(s.charAt(i));
+                max=Math.max(max,i-j+1); //max length (j->if a substring has repeating chracters)
+            }
+            return max;   
+        }
+        }
+
+
+ TLE -> 
+        class Solution 
+        {
+            public int lengthOfLongestSubstring(String s) 
+            {
+                HashSet<Character>set=new HashSet<>();
+                if(s.length()==1){
+                    return 1;
+                }
+                int max=0;
+                for(int i=0;i<s.length();i++)
+                {
+                    for(int j=i+1;j<=s.length();j++)
+                    {
+                        if(s.substring(i,j).length()<max){
+                            continue;
+                        }
+                        for(char ch : s.substring(i,j).toCharArray())
+                        {
+                            if(!set.contains(ch)){
+                                set.add(ch);
+                            }else{
+                                // max=Math.max(max,set.size());
+                                // set.clear();
+                                // set.add(ch);
+                                break;
+                            }
+                        }
+                        max=Math.max(max,set.size());
+                        set.clear();
+                    }
+                }
+                max=Math.max(max,set.size());
+                return max;   
+            }
+        }
