@@ -1,0 +1,65 @@
+443. String Compression
+Solved
+Medium
+Topics
+Companies
+Hint
+Given an array of characters chars, compress it using the following algorithm:
+
+Begin with an empty string s. For each group of consecutive repeating characters in chars:
+
+If the group's length is 1, append the character to s.
+Otherwise, append the character followed by the group's length.
+The compressed string s should not be returned separately, but instead, be stored in the input character array chars. Note that group lengths that are 10 or longer will be split into multiple characters in chars.
+
+After you are done modifying the input array, return the new length of the array.
+
+You must write an algorithm that uses only constant extra space.
+
+ 
+solution : runtime -> 3ms
+
+    class Solution 
+    {
+        public int compress(char[] ch) 
+        {
+            int i=0,j=1;
+            int count=1;
+            StringBuilder s=new StringBuilder();
+            while(j<ch.length)
+            {
+                if(ch[i]==ch[j])
+                {
+                    count++;
+                    j++;
+                }
+                else{
+                    if(count==1){
+                        s.append(ch[i]);
+                    }else{
+                        s.append(ch[i]);
+                        s.append(count);
+                        String tmp=String.valueOf(count);
+                        for(char t : tmp.toCharArray()){
+                            ch[++i]=t;
+                        }
+                    }
+                    count=1;
+                    i=j;
+                    j++;
+                }
+            }
+            if(count==1){
+                s.append(ch[i]);
+            }else{
+                s.append(ch[i]);
+                s.append(count);
+                String tmp=String.valueOf(count);
+                for(char t : tmp.toCharArray()){
+                    ch[++i]=t;
+                }
+            }
+            System.out.print(s);
+            return s.length();
+        }
+    }
