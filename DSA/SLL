@@ -1,0 +1,58 @@
+//SLL creation in java
+
+import java.util.*;
+
+class Node
+{
+    int data;
+    Node next;
+    
+    Node(int data){
+        this.data=data;
+        this.next=null;
+    }
+}
+
+class List
+{
+    Node head;
+    
+    public void insert(int data)
+    {
+        Node n=new Node(data);
+        if(head==null){
+            head=n;
+        }else{
+            Node current=head;
+            while(current.next!=null){
+                current=current.next;
+            }
+            current.next=n;
+        }
+    }
+    
+    public void display()
+    {
+        Node current=head;
+        while(current!=null){
+            System.out.print(current.data+" ");
+            current=current.next;
+        }
+    }
+}
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        
+        List sll=new List();
+        
+        for(int i=0;i<n;i++)
+        {
+            sll.insert(in.nextInt());
+        }
+        sll.display();
+    }
+}
