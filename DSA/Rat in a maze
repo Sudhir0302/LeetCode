@@ -1,0 +1,64 @@
+import java.util.*;
+
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Scanner in=new Scanner(System.in);
+        int n=in.nextInt();
+        int[][] a=new int[n][n];
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                a[i][j]=in.nextInt();
+            }
+        }
+        if(a[0][0]!=0||a[n-1][n-1]!=0){
+            System.out.print("No solution exists");
+            return;
+        }
+        boolean[][] visit=new boolean[n][n];
+        boolean valid=back(a,0,0,visit);
+        if(!valid){
+            System.out.print("No solution exists");
+            return;
+        }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                System.out.print(visit[i][j] ? "1 ":"0 ");
+            }
+            System.out.println();
+        }
+    }
+    public static boolean back(int[][] m,int i,int j,boolean[][] visit)
+    {
+        int r=m.length;
+        int c=m[0].length;
+        if(i==r-1&&j==c-1)
+        {
+            visit[i][j]=true;
+            return true;
+        }
+        if(i<0||j<0||i>=r||j>=c||m[i][j]==1||visit[i][j]){
+            return false;
+        }
+        visit[i][j]=true;
+        if(back(m,i+1,j,visit)){
+            return true;
+        }
+        if(back(m,i-1,j,visit)){
+            return true;
+        }
+        if(back(m,i,j+1,visit)){
+            return true;
+        }
+        if(back(m,i,j-1,visit)){
+            return true;
+        }
+        visit[i][j]=false;
+        return false;
+    }
+}
