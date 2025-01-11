@@ -1,0 +1,33 @@
+Print a sequence of numbers starting with n, without using a loop. Replace n with n - 5, n−5... until n≤0. Then, replace n with n+5, n + 5, n+5 until n regains its initial value. Complete the function pattern(n) which takes n as input and returns a list containing the pattern.
+
+Examples
+
+Input: n = 16
+Output: 16 11 6 1 -4 1 6 11 16
+Explanation: The value decreases until it is greater than 0. After that it increases and stops when it becomes 16 again.
+Input: n = 10
+Output: 10 5 0 5 10
+Explanation: It follows the same logic as per the above example.
+Expected Time Complexity: O(n)
+Expected Auxiliary Space: O(n)
+
+solution:
+
+class Solution{
+    public List<Integer> pattern(int N){
+        // code here
+        List<Integer>ans=new ArrayList<>();
+        back(ans,N);
+        return ans;
+    }
+    public void back(List<Integer>ans,int n)
+    {
+        if(n<=0){
+            ans.add(n);
+            return;
+        }
+        ans.add(n);
+        back(ans,n-5);
+        ans.add(n);
+    }
+}
