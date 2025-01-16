@@ -1,0 +1,82 @@
+All three traversal.
+1.inorder - left root right
+2.preorder - root left right
+3.postorder - left right root
+
+
+
+
+import java.util.*;
+
+class Node 
+{
+    int val;
+    Node right;
+    Node left;
+    Node(int val){
+        this.val=val;
+        this.left=null;
+        this.right=null;
+    }
+}
+public class Main 
+{
+    Node root;
+    public static Node insert(Node root,int d)
+    {
+        if(root==null){
+            return new Node(d);
+        }
+        if(d<root.val){
+            root.left=insert(root.left,d);
+        }else{
+            root.right=insert(root.right,d);
+        }
+        return root;
+    }
+    public void inorder(Node root)
+    {
+        if(root!=null){
+            inorder(root.left);
+            System.out.print(root.val+" ");
+            inorder(root.right);
+        }
+        return;
+    }
+    public void preorder(Node root)
+    {
+        if(root!=null){
+            System.out.print(root.val+" ");
+            preorder(root.left);
+            preorder(root.right);
+        }
+        return;
+    }
+    public void postorder(Node root)
+    {
+        if(root!=null){
+            postorder(root.left);
+            postorder(root.right);
+            System.out.print(root.val+" ");
+        }
+        return;
+    }
+    public static void main(String[] args)
+    {
+        Scanner in=new Scanner(System.in);
+        Main bst=new Main();
+        int n=in.nextInt();
+        for(int i=0;i<n;i++)
+        {
+            bst.root=bst.insert(bst.root,in.nextInt());
+        }
+        System.out.print("Inorder Traversal: ");
+        bst.inorder(bst.root);
+        System.out.println();
+        System.out.print("Preorder Traversal: ");
+        bst.preorder(bst.root);
+        System.out.println();
+        System.out.print("Postorder Traversal: ");
+        bst.postorder(bst.root);
+    }
+}
