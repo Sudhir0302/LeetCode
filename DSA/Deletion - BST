@@ -1,0 +1,98 @@
+import java.util.*;
+
+
+class Node 
+{
+    int data;
+    Node left;
+    Node right;
+    Node(int data)
+    {
+        this.data=data;
+        this.right=null;
+        this.left=null;
+    }
+}
+public class Main 
+{
+    Node root;
+    public Node insert(Node root,int d)
+    {
+        if(root==null){
+            root=new Node(d);
+        }
+        if(d<root.data){
+            root.left=insert(root.left,d);
+        }else if(d>root.data){
+            root.right=insert(root.right,d);
+        }
+        return root;
+    }
+    public Node delete(int d)
+    {
+        if(root==null){
+            return null;
+        }
+        if(root.data==d){
+            return helper(root);
+        }
+        Node tmp=root;
+        while(root!=null){
+            if(d<root.data){  //if tar less then root means search in left tree
+                if(root.left!=null&&root.left.data==d){
+                    root.left=helper(root.left);
+                    break;
+                }else{
+                    root=root.left;
+                }
+            }else{  //if tar greater then root means search in right tree
+                if(root.right!=null&&root.right.data==d){
+                    root.right=helper(root.right);
+                    break;
+                }else{
+                    root=root.right;
+                }
+            }
+        }
+        return tmp;
+    }
+    public Node helper(Node root)
+    {
+        if(root.left==null){
+            return root.right;
+        }
+        else if(root.right==null){
+            return root.left;
+        }
+        Node right=root.right;
+        Node lastright=findlast(root.left);
+        lastright.right=right;
+        return root.left;
+    }
+    public Node findlast(Node root){
+        if(root.right==null){
+            return root;
+        }
+        return findlast(root.right);
+    }
+    public void inorder(Node root){
+        if(root!=null){
+            inorder(root.left);
+            System.out.print(root.data+" ");
+            inorder(root.right);
+        }
+    }
+    public static void main(String[] args)
+    {
+        Main bst=new Main();
+        bst.root=bst.insert(bst.root,5);
+        bst.root=bst.insert(bst.root,2);
+        bst.root=bst.insert(bst.root,1);
+        bst.root=bst.insert(bst.root,0);
+        bst.root=bst.insert(bst.root,9);
+        bst.inorder(bst.root);
+        System.out.println();
+        bst.root=bst.delete(5);
+        bst.inorder(bst.root);
+    }
+}   
