@@ -1,0 +1,73 @@
+Write a program to insert a node into a binary search tree using recursive technique. Only the function insert needs to be updated and no other change has to be done to the program
+For example:
+
+Input	              Result
+5
+3 4 5 2 1           1 2 5 4 3 
+7
+3 4 5 9 6 8 2 1     2 8 6 9 5 4 3 
+
+
+solution:
+
+//postorder traversal
+
+import java.util.*;
+
+class Node
+{
+    int data;
+    Node left, right;
+ 
+    Node(int key)
+    {
+        data = key;
+        left = right = null;
+    }
+}
+ 
+public class Prog
+{
+    static Node root;
+    
+    public static void display(Node node)
+    {
+        if (node == null) 
+            return;
+ 
+        display(node.left);
+        display(node.right);
+        System.out.print(node.data + " ");
+        
+    }
+ 
+    public static Node insert(Node node, int key)
+    {
+        
+        //type code here..
+        if(node==null){
+            return new Node(key); //root of a binary tree
+        }
+        if(key<node.data){
+            node.left=insert(node.left,key);
+        }else if(key>node.data){
+            node.right=insert(node.right,key);
+        }
+        
+        return node;
+    }
+    
+    public static void main(String[] args)
+    {
+        int n;
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+    
+        root = insert(null,sc.nextInt());
+               
+        for(int i=0;i<n-1;++i)
+            insert(root,sc.nextInt());
+            
+        display(root);
+    }
+}
