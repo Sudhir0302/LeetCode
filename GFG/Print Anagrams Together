@@ -1,0 +1,48 @@
+Print Anagrams Together
+
+Given an array of strings, return all groups of strings that are anagrams. The strings in each group must be arranged in the order of their appearance in the original array. Refer to the sample case for clarification.
+
+Examples:
+
+Input: arr[] = ["act", "god", "cat", "dog", "tac"]
+Output: [["act", "cat", "tac"], ["god", "dog"]]
+Explanation: There are 2 groups of anagrams "god", "dog" make group 1. "act", "cat", "tac" make group 2.
+Input: arr[] = ["no", "on", "is"]
+Output: [["is"], ["no", "on"]]
+Explanation: There are 2 groups of anagrams "is" makes group 1. "no", "on" make group 2.
+Input: arr[] = ["listen", "silent", "enlist", "abc", "cab", "bac", "rat", "tar", "art"]
+Output: [["abc", "cab", "bac"], ["listen", "silent", "enlist"], ["rat", "tar", "art"]]
+Explanation: 
+Group 1: "abc", "bac", and "cab" are anagrams.
+Group 2: "listen", "silent", and "enlist" are anagrams.
+Group 3: "rat", "tar", and "art" are anagrams.
+Constraints:
+1<= arr.size() <=100
+1<= arr[i].size() <=10
+
+Solution: 
+
+class Solution 
+{
+    public ArrayList<ArrayList<String>> anagrams(String[] arr) 
+    {
+        LinkedHashMap<String,ArrayList<String>>map=new LinkedHashMap<>();
+        for(String s : arr)
+        {
+            char[] a=s.toCharArray();
+            Arrays.sort(a);
+            String s1=new String(a);
+            if(map.containsKey(s1))
+            {
+                ArrayList<String>tmp=new ArrayList<>(map.get(s1));
+                tmp.add(s);
+                map.put(s1,tmp);
+            }else{
+                ArrayList<String>tmp=new ArrayList<>();
+                tmp.add(s);
+                map.put(s1,tmp);
+            }
+        }
+        return new ArrayList<>(map.values());
+    }
+}
