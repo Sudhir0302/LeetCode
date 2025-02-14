@@ -1,0 +1,16 @@
+Kadane's Algorithm
+
+
+class Solution {
+    int maxSubarraySum(int[] arr) 
+    {
+        int pre=0,max=arr[0];
+        for(int d : arr)
+        {
+            pre+=d;
+            pre=Math.max(pre,d);
+            max=Math.max(max,pre);
+        }
+        return max;
+    }
+}
