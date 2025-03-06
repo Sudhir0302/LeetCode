@@ -1,0 +1,38 @@
+394. Decode String
+
+solution: 
+
+class Solution 
+{
+    public String decodeString(String s) 
+    {
+        StringBuilder ans=new StringBuilder();
+        back(ans,s,0,0);
+        return ans.toString();
+    }
+    public static int back(StringBuilder ans,String s,int st,int k)
+    {
+        while(st<s.length())
+        {
+            char ch=s.charAt(st);
+            if(Character.isDigit(ch)){
+                k = k * 10 + (ch - '0');
+            }else if(ch=='['){
+                StringBuilder tmp=new StringBuilder();
+                st=back(tmp,s,st+1,0);
+                for(int j=1;j<=k;j++)
+                {
+                    //here ans is actually represents previous call's tmp.
+                    ans.append(tmp);//tmp.append(tmp2); tmp-current stack memory , tmp2 previous stack'memory which is returned..
+                }
+                k=0;
+            }else if(ch==']'){
+                return st;
+            }else{
+                ans.append(ch);
+            }
+            st++;
+        }
+        return st;
+    }
+}

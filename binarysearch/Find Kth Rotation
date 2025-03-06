@@ -1,0 +1,41 @@
+Find Kth Rotation
+
+
+// just find the min element's index!!!!!!!!
+
+Input: arr = [5, 1, 2, 3, 4]
+       index=[0, 1, 2, 3, 4]
+Output: 1 (min element=1,index=1)
+Explanation: The given array is 5 1 2 3 4. The original sorted array is 1 2 3 4 5. 
+We can see that the array was rotated 1 times to the right.
+
+
+solution:
+class Solution 
+{
+    public int findKRotation(List<Integer> a) 
+    {
+        int i=0,j=a.size()-1;
+        int min=Integer.MAX_VALUE;
+        int ind=0;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(a.get(i)<=a.get(mid)){
+                if(min>a.get(i)){
+                    ind=i;
+                    min=a.get(i);
+                }
+                i=mid+1;
+            }else{
+                if(min>a.get(mid)){
+                    min=a.get(mid);
+                    ind=mid;
+                }
+                j=mid-1;
+            }
+        }
+        return ind;
+        
+    }
+}
