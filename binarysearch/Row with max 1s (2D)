@@ -1,0 +1,38 @@
+Row with max 1s
+
+
+class Solution 
+{
+    public int rowWithMax1s(int a[][]) 
+    {
+        int ind=-1;
+        int max=Integer.MIN_VALUE;
+        for(int i=0;i<a.length;i++)
+        {
+            int c=check(a[i]);
+            int one=a[i].length-(c+1);
+            if(one>max){
+                max=one;
+                ind=i;
+            }
+            // System.out.println(c);
+        }
+        return ind;
+    }
+    public int check(int[] a)
+    {
+        int i=0,j=a.length-1;
+        int ind=-1;
+        while(i<=j)
+        {
+            int mid=i+(j-i)/2;
+            if(a[mid]<=0){
+                ind=mid;
+                i=mid+1;
+            }else{
+                j=mid-1;
+            }
+        }
+        return j;
+    }
+}

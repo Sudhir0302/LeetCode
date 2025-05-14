@@ -1,0 +1,332 @@
+package recursion;
+import java.util.*;
+
+class Node
+{
+    int val;
+    Node left;
+    Node right;
+    Node(int val)
+    {
+        this.val=val;
+        this.left=null;
+        this.right=null;
+    }
+}
+
+class Pair
+{
+    Node n;
+    int h;
+    int d;
+    Pair(Node n,int h,int d)
+    {
+        this.n=n;
+        this.h=h;
+        this.d=d;
+    }
+}
+public class Main
+{
+    Node root;
+    Node srchroot;
+    public Node add(Node root,int val)
+    {
+        if(root==null){
+            return new Node(val);
+        }
+        if(root.val>val){
+            root.left=add(root.left,val);
+        }
+        if(root.val<val){
+            root.right=add(root.right,val);
+        }
+        return root;
+    }
+
+    public static void inorder(Node root)
+    {
+        if(root==null){
+            return;
+        }
+        inorder(root.left);
+        System.out.print(root.val+" ");
+        inorder(root.right);
+    }
+
+    public static void preorder(Node root)
+    {
+        if(root==null){
+            return;
+        }
+        System.out.print(root.val+" ");
+        preorder(root.left);
+        preorder(root.right);
+    }
+
+    public static void postorder(Node root)
+    {
+        if(root==null){
+            return;
+        }
+        postorder(root.left);
+        postorder(root.right);
+        System.out.print(root.val+" ");
+    }
+
+    public static int height(Node root)
+    {
+        Queue<Node>q=new LinkedList<>();
+        q.add(root);
+        int h=0;
+        while(!q.isEmpty())
+        {
+            int len=q.size();
+            for(int i=0;i<len;i++)
+            {
+                Node curr=q.poll();
+                if(curr.left!=null){
+                    q.add(curr.left);
+                }
+                if(curr.right!=null){
+                    q.add(curr.right);
+                }
+            }
+            h++;
+        }
+        return h;
+    }
+
+    public static int depth(Node root,int val)
+    {
+        int d=0;
+        while(root!=null)
+        {
+            if(root.val==val){
+                return d;
+            }
+            else if(root.val>val){
+                root=root.left;
+            }else{
+                root=root.right;
+            }
+            d++;
+        }
+        return -1;
+    }
+
+    public void ancestor1(Node root,int val)
+    {
+        if(root==null||root.val==val){
+            return;
+        }
+        if(root.val>val){
+            System.out.print(root.val+" ");
+            ancestor1(root.left,val);
+        }else{
+            System.out.print(root.val);
+            ancestor1(root.right,val);
+        }
+    }
+
+    public static boolean ancestor(Node root, int val) {
+        if (root == null)
+        {
+            return false;
+        }
+        if (root.val == val)
+        {
+            return true;
+        }
+        if (ancestor(root.left, val) || ancestor(root.right, val))
+        {
+            System.out.print(root.val + " ");
+            return true;
+        }
+        return false;
+    }
+
+    int max=0;
+    public int diameter(Node root)
+    {
+        if(root==null){
+            return 0;
+        }
+        int lh=diameter(root.left);
+        int rh=diameter(root.right);
+        max=Math.max(max,(lh+rh));
+        return Math.max(lh,rh)+1;
+    }
+
+    public Node delete(Node root,int val)
+    {
+        if(root==null){
+            return root;
+        }
+        if(root.val==val){
+            return helper(root);
+        }
+        Node tmp=root;
+        while(root!=null)
+        {
+            if(root.val>val)
+            {
+                if(root.left!=null&&root.left.val==val){
+                    root.left=helper(root.left);
+                    break;
+                }else{
+                    root=root.left;
+                }
+            }else{
+                if(root.right!=null&&root.right.val==val){
+                    root.right=helper(root.right);
+                    break;
+                }else{
+                    root=root.right;
+                }
+            }
+        }
+        return tmp;
+    }
+
+    public Node helper(Node root)
+    {
+        if(root.left==null){
+            return root.right;
+        }
+        if(root.right==null){
+            return root.left;
+        }
+        Node right=root.right;
+        Node lastright=last(root.left); //finding max node in the left substree
+        lastright.right=right;
+        return root.left;
+    }
+
+    public Node last(Node root)
+    {
+        if(root.right==null){
+            return root;
+        }
+        return last(root.right);
+    }
+
+    public List<List<Integer>> lvlorder(Node root)
+    {
+        List<List<Integer>>a=new ArrayList<>();
+        Queue<Node>q=new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty())
+        {
+            int len=q.size();
+            List<Integer>tmp=new ArrayList<>();
+            for(int i=0;i<len;i++)
+            {
+                Node curr=q.poll();
+                tmp.add(curr.val);
+                if(curr.left!=null){
+                    q.add(curr.left);
+                }
+                if(curr.right!=null){
+                    q.add(curr.right);
+                }
+            }
+            a.add(new ArrayList<>(tmp));
+        }
+        return a;
+    }
+    public Node search(Node root,int val)
+    {
+        while(root!=null){
+            if(root.val==val){
+                return root;
+            }
+            if(root.val>val){
+                root=root.left;
+            }else{
+                root=root.right;
+            }
+        }
+        return root;
+    }
+    public  boolean isbst(Node root)
+    {
+        List<Integer>b=new ArrayList<>();
+        inorder(b,root);
+        for(int i=0;i<b.size()-1;i++)
+        {
+            if(b.get(i)>b.get(i+1)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public void inorder(List<Integer>a,Node root)
+    {
+        if(root==null){
+            return;
+        }
+        inorder(a,root.left);
+        a.add(root.val);
+        inorder(a,root.right);
+    }
+
+    public void topview(Node root)
+    {
+        ArrayList<Integer> res = new ArrayList<>();
+        Queue<Pair> q = new LinkedList<>();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        q.add(new Pair(root, 0, 0));
+        while (!q.isEmpty())
+        {
+            Pair p = q.poll();
+            Node curr = p.n;
+            int h = p.h;
+            int d = p.d;
+            if (!map.containsKey(h)) {
+                map.put(h, curr.val);
+            }
+            if (curr.left != null) {
+                q.add(new Pair(curr.left, h - 1, d + 1));
+            }
+            if (curr.right != null) {
+                q.add(new Pair(curr.right, h + 1, d + 1));
+            }
+        }
+        for (int val : map.values()) {
+            res.add(val);
+        }
+        System.out.println("\nTopView : "+res);
+    }
+
+    public static void main(String[] args)
+    {
+        Main obj=new Main();
+        obj.root=obj.add(obj.root,5);
+        obj.root=obj.add(obj.root,3);
+        obj.root=obj.add(obj.root,6);
+        obj.root=obj.add(obj.root,2);
+        obj.root=obj.add(obj.root,4);
+        obj.root=obj.add(obj.root,7);
+        System.out.print("inorder : ");
+        obj.inorder(obj.root);
+        System.out.print("\npreorder : ");
+        obj.preorder(obj.root);
+        System.out.print("\npostorder : ");
+        obj.postorder(obj.root);
+        System.out.println("\nheight: "+height(obj.root));
+        System.out.println("depth: "+obj.depth(obj.root,1));
+        System.out.println("ancestor: "+obj.ancestor(obj.root,1));
+        obj.ancestor1(obj.root,1);
+        System.out.println("\n"+obj.diameter(obj.root));
+        obj.root=obj.delete(obj.root,3);
+        obj.inorder(obj.root);
+        List<List<Integer>>res=new ArrayList<>();
+        res=obj.lvlorder(obj.root);
+        System.out.println("\nlevel order : "+res);
+        obj.srchroot=obj.search(obj.root,2);
+        inorder(obj.srchroot);
+        System.out.print("\nisBst : "+obj.isbst(obj.root));
+        obj.topview(obj.root);
+    }
+}
