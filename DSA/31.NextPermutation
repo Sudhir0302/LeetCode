@@ -1,0 +1,45 @@
+//step 1 : find the index of a number from last which is decreasing
+//step 2 : then find the next first greater element of that number
+//step 3 : rev everything after that ind and then return...
+class Solution 
+{
+    public void nextPermutation(int[] nums) 
+    {
+        int n=nums.length;
+        int ind=-1;
+        for(int i=n-2;i>=0;i--)  
+        {
+            if(nums[i]<nums[i+1]){
+                ind=i;
+                break;
+            }
+        }
+        if(ind==-1){
+            rev(nums,0,n-1);
+            return;
+        }
+        for(int i=n-1;i>ind;i--)
+        {
+            if(nums[i]>nums[ind]){
+                int tmp=nums[ind];
+                nums[ind]=nums[i];
+                nums[i]=tmp;
+                rev(nums,ind+1,n-1);
+                break;
+            }
+        }
+        return;
+    }
+    public void rev(int[] a,int i,int j)
+    {
+        while(i<=j)
+        {
+            int tmp=a[i];
+            a[i]=a[j];
+            a[j]=tmp;
+            i++;
+            j--;
+        }
+        return;
+    }
+}

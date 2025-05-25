@@ -1,0 +1,21 @@
+Resulting String After Adjacent Removals
+
+class Solution 
+{
+    public String resultingString(String s) 
+    {
+        StringBuilder stack = new StringBuilder();
+        for (char ch : s.toCharArray()) {
+            if (stack.length() > 0 && isConsecutive(stack.charAt(stack.length() - 1), ch)) {
+                stack.deleteCharAt(stack.length() - 1); 
+            } else {
+                stack.append(ch);
+            }
+        }
+        return stack.toString();
+    }
+    public boolean isConsecutive(char a, char b) {
+        int diff = Math.abs(a - b);
+        return diff == 1 || diff == 25;
+    }
+}
